@@ -2,7 +2,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
   mode: 'development',
-  entry: './kadai-10/main.ts',
+  entry: './kadai-10-2/main.ts',
 
   module: {
     rules: [
