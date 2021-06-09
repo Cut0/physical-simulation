@@ -8,6 +8,9 @@ yarn install
 
 # webpack による build
 
+build されたファイルはプロジェクトルートの`dist`フォルダ直下に生成される．
+`public`フォルダが本リポジトリのアプリケーションとなる．
+
 ## 開発環境
 
 ```
