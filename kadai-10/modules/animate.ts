@@ -67,8 +67,9 @@ export default (canvas: HTMLCanvasElement) => {
 
   const animate = () => {
     drawCanvas();
-    state.box.y += state.box.vy * step;
     state.box.vy += -(state.box.k / state.box.m) * state.box.y * step;
+    state.box.y += state.box.vy * step;
+
     state.time += step;
     if (state.positions.length < MAX_LENGTH) state.positions.push(state.box.y);
 

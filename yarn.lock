@@ -961,6 +961,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
 
+"@types/mathjax@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@types/mathjax/-/mathjax-0.0.36.tgz#18cf766f88ac0cd4e7ee8282b1286049bb6aa682"
+  integrity sha512-TqDJc2GWuTqd/m+G/FbNkN+/TF2OCCHvcawmhIrUaZkdVquMdNZmNiNUkupNg9qctorXXkVLVSogZv1DhmgLmg==
+
 "@types/node@*":
   version "15.12.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.2.tgz#1f2b42c4be7156ff4a6f914b2fb03d05fa84e38d"
@@ -2882,6 +2887,11 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
   integrity sha1-2TPOuSBdgr3PSIb2dCvcK03qFG0=
+
+mathjax@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/mathjax/-/mathjax-3.2.0.tgz#ea7c317f8c81776ecfc83b294fc313046bf7f726"
+  integrity sha512-PL+rdYRK4Wxif+SQ94zP/L0sv6/oW/1WdQiIx0Jvn9FZaU5W9E6nlIv8liYAXBNPL2Fw/i+o/mZ1212eSzn0Cw==
 
 meow@^3.7.0:
   version "3.7.0"
