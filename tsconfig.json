@@ -22,7 +22,8 @@
 	"include": [
 		"kadai-9/**/*",
 		"kadai-10-1/**/*",
-		"kadai-10-2/**/*"
+		"kadai-10-2/**/*",
+		"kadai-11/**/*"
 	],
 	"exclude": [
 		"dist",
