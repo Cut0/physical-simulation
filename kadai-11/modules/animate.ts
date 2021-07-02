@@ -1,20 +1,5 @@
 import { reactive, computed } from '@vue/composition-api';
-
-type BoxInfo = {
-  c: number;
-  k: number;
-  m: number;
-  side: number;
-  startY: number;
-  startVY: number;
-};
-
-type Box = {
-  y: number; //位置
-  yPrev: number;
-  vy: number; //速度
-  vyPrev: number;
-};
+import { BoxInfo, Box } from '../types';
 
 type PositionList = number[];
 
@@ -138,17 +123,19 @@ export default (canvas: HTMLCanvasElement) => {
 
   const updateBoxInfo = (info: BoxInfo) => {
     boxInfo.c = info.c;
+    boxInfo.k = info.k;
     boxInfo.m = info.m;
     boxInfo.side = info.side;
     boxInfo.startY = info.startY;
     boxInfo.startVY = info.startVY;
   };
 
+  init();
+
   return {
     time,
     isMoving,
     box,
-    init,
     reset,
     switchMoving,
     stepOnce,

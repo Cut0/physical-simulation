@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar dark fixed color="#EF4455">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-app-bar-title>教育システムデザイン第10回</v-app-bar-title>
+      <v-app-bar-title>教育システムデザイン第11回</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="state.reset">
         <v-icon>$restart</v-icon>
@@ -12,15 +12,17 @@
       <v-container>
         <v-card class="mx-auto" max-width="720">
           <v-container>
-            <p>4619023：加藤零</p>
-            <canvas ref="myCanvas" width="300" height="300"></canvas>
+            <p>箱シミュレータ</p>
+            <div ref="canvasWrapper">
+              <canvas ref="myCanvas" width="auto" height="300"></canvas>
+            </div>
           </v-container>
         </v-card>
       </v-container>
       <v-container>
         <v-card class="mx-auto" max-width="720">
           <v-container>
-            <p class="headline">ボール情報</p>
+            <p class="headline">箱情報</p>
             <v-container>
               <v-row>
                 <v-col align="center">
@@ -46,34 +48,45 @@
             </v-container>
           </v-container>
         </v-card>
-        <v-card>
+      </v-container>
+      <v-container>
+        <v-card class="mx-auto" max-width="720">
           <v-container>
-            <p class="headline">ボール設定</p>
+            <p class="headline">箱設定</p>
             <v-container>
               <v-slider
                 label="C"
                 hint="C"
-                max="50"
-                min="1"
+                max="5"
+                min="0.1"
+                step="0.1"
                 thumb-label="always"
+                :disabled="state.isMoving"
+                v-model="boxInfo.c"
               ></v-slider>
             </v-container>
             <v-container>
               <v-slider
                 label="K"
                 hint="K"
-                max="50"
-                min="1"
+                max="10"
+                min="0.1"
+                step="0.1"
                 thumb-label="always"
+                :disabled="state.isMoving"
+                v-model="boxInfo.k"
               ></v-slider>
             </v-container>
             <v-container>
               <v-slider
                 label="M"
                 hint="M"
-                max="50"
+                max="10"
                 min="1"
+                step="0.1"
                 thumb-label="always"
+                :disabled="state.isMoving"
+                v-model="boxInfo.m"
               ></v-slider>
             </v-container>
             <v-container>
@@ -83,6 +96,8 @@
                 max="50"
                 min="1"
                 thumb-label="always"
+                :disabled="state.isMoving"
+                v-model="boxInfo.side"
               ></v-slider>
             </v-container>
           </v-container>
@@ -109,27 +124,19 @@
           </v-container>
         </v-card>
       </v-container>
-      <v-container>
-        <v-card class="mx-auto" max-width="720">
-          <v-container>
-            <p class="headline">実装内容・工夫点</p>
-            <p>
-              バネの減衰運動に関して \( \frac{d^2y}{dt^2} =
-              \frac{k}{m}y-\frac{c}{m}\frac{dy}{dt}\)を利用することで，運動を視覚化した．
-            </p>
-          </v-container>
-        </v-card>
-      </v-container>
-      <v-container>
-        <v-card class="mx-auto" max-width="720">
-          <v-container>
-            <p class="headline">実装内容・工夫点</p>
-            <p>
-              今回の課題ではUIを整えるためにvuetifyを利用した．また，JS単体だと補完機能が乏しく安全性も低いためTypeScriptを利用してJSにトランスパイルしwebpackでbundleすることで課題に取り組んだ．また，vue2にcomposition-apiを入れることで開発効率を向上させた．vuetifyが最新のvue3に対応していないためvue2を利用している．webpackは最新の5系を取り入れている.また，CDNを利用してMathJaxを取り込むことで数式をWeb上で表現できるようにした．
-            </p>
-          </v-container>
-        </v-card>
-      </v-container>
+      <about-card
+        title="実装内容・工夫点"
+        content="アニメーションを再生していない際にスライダーを変更させることで箱の情報を変更できる．CSSフレームワークとしてvuetifyを利用していることにより，提供されるコンポーネントを利用することでリッチなUIを簡単に表現することができた．Canvasを親要素のサイズと一致させた"
+      ></about-card>
+      <about-card
+        title="実装内容・工夫点"
+        content="バネの減衰運動に関して \( \frac{d^2y}{dt^2} =
+              \frac{k}{m}y-\frac{c}{m}\frac{dy}{dt}\)を利用することで，運動を視覚化した"
+      ></about-card>
+      <about-card
+        title="実装内容・工夫点"
+        content="今回の課題ではUIを整えるためにvuetifyを利用した．また，JS単体だと補完機能が乏しく安全性も低いためTypeScriptを利用してJSにトランスパイルしwebpackでbundleすることで課題に取り組んだ．また，vue2にcomposition-apiを入れることで開発効率を向上させた．vuetifyが最新のvue3に対応していないためvue2を利用している．webpackは最新の5系を取り入れている.また，CDNを利用してMathJaxを取り込むことで数式をWeb上で表現できるようにした．"
+      ></about-card>
     </v-main>
   </v-app>
 </template>
@@ -143,17 +150,11 @@ import {
   computed,
 } from '@vue/composition-api';
 import AnimateComponent from './modules/animate';
-
-type BoxInfo = {
-  c: number;
-  k: number;
-  m: number;
-  side: number;
-  startY: number;
-  startVY: number;
-};
+import AboutCard from './components/AboutCard.vue';
+import { BoxInfo } from './types';
 
 export default defineComponent({
+  components: { AboutCard },
   setup() {
     const state = reactive({
       time: 0.0,
@@ -174,12 +175,13 @@ export default defineComponent({
       startVY: 10,
     });
 
+    const canvasWrapper = ref<null | HTMLDivElement>(null);
     const myCanvas = ref<null | HTMLCanvasElement>(null);
 
     onMounted(() => {
       const canvas = myCanvas.value!;
+      canvas.width = canvasWrapper.value!.clientWidth;
       const animateComponent = AnimateComponent(canvas);
-      animateComponent.init();
       animateComponent.animate();
 
       watch(animateComponent.isMoving, (val) => (state.isMoving = val), {
@@ -197,6 +199,14 @@ export default defineComponent({
       setInterval(() => {
         if (animateComponent.isMoving.value) state.time += 0.1;
       }, 100);
+
+      watch(
+        () => boxInfo,
+        (val) => {
+          animateComponent.updateBoxInfo(val);
+        },
+        { deep: true },
+      );
     });
 
     const headers = computed(() => [
@@ -210,7 +220,7 @@ export default defineComponent({
       { title: '速度', vy: state.vector.y },
     ]);
 
-    return { state, myCanvas, headers, table };
+    return { state, boxInfo, myCanvas, canvasWrapper, headers, table };
   },
 });
 </script>
